@@ -3,3 +3,4 @@ Nothing should be ignored since both added files are HTML source files (.html), 
 dist/
 build/
 *.log
+node_modules/

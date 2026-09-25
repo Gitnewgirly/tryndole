@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="M B TECH - Freelance C++ & Python Developer based in France. Specializing in Qt applications, server architecture, and custom software solutions.">
+    <meta name="theme-color" content="#0b1120">
+    <title>M B TECH | Freelance C++ &amp; Python Developer – France</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1120'/%3E%3Ctext x='32' y='43' font-family='Inter,Arial' font-size='30' font-weight='800' fill='%2338bdf8' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   M B TECH — design tokens
+   ============================================================ */
+:root {
+    --bg:            #0b1120;
+    --bg-alt:        #0f172a;
+    --bg-elev:       #131f38;
+    --surface:       rgba(255, 255, 255, 0.035);
+    --surface-hover: rgba(255, 255, 255, 0.06);
+    --border:        rgba(148, 163, 184, 0.16);
+    --border-strong: rgba(148, 163, 184, 0.32);
+
+    --text:          #e8eefc;
+    --text-muted:    #97a6c2;
+    --text-dim:      #6b7a99;
+
+    --accent:        #38bdf8;
+    --accent-2:      #818cf8;
+    --accent-3:      #22d3ee;
+    --accent-soft:   rgba(56, 189, 248, 0.12);
+    --gradient:      linear-gradient(135deg, #38bdf8 0%, #818cf8 55%, #c084fc 100%);
+    --gradient-soft: linear-gradient(135deg, rgba(56,189,248,.18), rgba(129,140,248,.18));
+
+    --font:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+    --radius-sm: 10px;
+    --radius:    16px;
+    --radius-lg: 24px;
+
+    --shadow:    0 18px 40px -18px rgba(2, 6, 23, 0.85);
+    --shadow-lg: 0 40px 80px -30px rgba(2, 6, 23, 0.95);
+
+    --nav-h:  76px;
+    --ease:   cubic-bezier(0.22, 1, 0.36, 1);
+    --maxw:   1180px;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    background-color: var(--bg);
+    /* Layered "image": soft light bloom + subtle technical grid */
+    background-image:
+        radial-gradient(900px 520px at 82% -6%,  rgba(56, 189, 248, 0.16), transparent 62%),
+        radial-gradient(760px 480px at 4% 12%,   rgba(129, 140, 248, 0.14), transparent 60%),
+        linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+    background-size: auto, auto, 64px 64px, 64px 64px;
+    background-attachment: fixed, fixed, fixed, fixed;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, svg { max-width: 100%; }
+a { color: var(--accent); text-decoration: none; transition: color .2s var(--ease); }
+a:hover { color: var(--accent-3); }
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; letter-spacing: -0.02em; font-weight: 700; }
+p { margin: 0 0 1rem; }
+
+::selection { background: rgba(56, 189, 248, 0.3); color: #fff; }
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: 24px;
+}
+
+section { position: relative; padding: 110px 0; }
+
+/* Hairline separators between sections */
+section + section::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+
+/* ============================================================
+   Section headings
+   ============================================================ */
+.section-title {
+    font-size: clamp(2rem, 4.2vw, 2.85rem);
+    text-align: center;
+    margin-bottom: 14px;
+    font-weight: 800;
+}
+
+.section-title::after {
+    content: "";
+    display: block;
+    width: 68px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 999px;
+    background: var(--gradient);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.06rem;
+    max-width: 620px;
+    margin: 0 auto 62px;
+}
+
+.section-title + .services-grid,
+.section-title + .skills-grid,
+.section-title + .about-grid { margin-top: 62px; }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+    --btn-y: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 30px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font: inherit;
+    font-size: .97rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    cursor: pointer;
+    white-space: nowrap;
+    transform: translateY(var(--btn-y));
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                background-color .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
+}
+
+.btn-primary {
+    background: var(--gradient);
+    color: #06111f;
+    box-shadow: 0 12px 30px -12px rgba(56, 189, 248, 0.7);
+}
+.btn-primary:hover { --btn-y: -3px; color: #06111f; box-shadow: 0 20px 44px -14px rgba(56, 189, 248, 0.85); }
+
+.btn-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border-strong);
+    backdrop-filter: blur(8px);
+}
+.btn-secondary:hover { --btn-y: -3px; background: var(--surface-hover); border-color: var(--accent); color: var(--text); }
+
+.btn-full { width: 100%; }
+.btn svg { flex-shrink: 0; }
+
+/* ============================================================
+   Navbar
+   ============================================================ */
+.navbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    background: rgba(11, 17, 32, 0.78);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    color: var(--text);
+    white-space: nowrap;
+}
+.logo:hover { color: var(--text); }
+.logo .accent {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: .94rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+.nav-link:hover, .nav-link.active { color: var(--text); background: var(--surface); }
+
+.nav-link.btn-contact {
+    margin-left: 8px;
+    padding: 10px 22px;
+    background: var(--gradient);
+    color: #06111f;
+    font-weight: 600;
+    box-shadow: 0 10px 26px -14px rgba(56, 189, 248, 0.9);
+}
+.nav-link.btn-contact:hover { color: #06111f; transform: translateY(-2px); }
+
+/* Hamburger — CSS-only toggle (hidden checkbox + label), no JavaScript */
+.nav-checkbox {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    order: 2;
+}
+.nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin-inline: auto;
+    border-radius: 2px;
+    background: var(--text);
+    transition: transform .3s var(--ease), opacity .2s var(--ease);
+}
+.nav-checkbox:checked ~ .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-checkbox:checked ~ .nav-toggle span:nth-child(2) { opacity: 0; }
+.nav-checkbox:checked ~ .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-checkbox:focus-visible ~ .nav-toggle { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--nav-h) + 70px) 0 120px;
+    overflow: hidden;
+}
+
+/* Decorative "image" layer: animated gradient orbs */
+.hero-bg {
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(closest-side at 22% 28%, rgba(56, 189, 248, 0.34), transparent 70%),
+        radial-gradient(closest-side at 78% 22%, rgba(129, 140, 248, 0.30), transparent 70%),
+        radial-gradient(closest-side at 62% 82%, rgba(192, 132, 252, 0.22), transparent 70%);
+    filter: blur(38px);
+    opacity: .85;
+    animation: drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+    from { transform: translate3d(-2%, -1%, 0) scale(1); }
+    to   { transform: translate3d(3%, 2%, 0) scale(1.08); }
+}
+
+.hero-container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.hero-greeting {
+    margin-bottom: 10px;
+    font-family: var(--font-mono);
+    font-size: .95rem;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-size: clamp(2.8rem, 7.5vw, 4.6rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
+}
+.hero-title .highlight {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-subtitle {
+    min-height: 2.2em;
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 18px;
+}
+
+/* Rotating role text: every word shares one grid cell, so the box is sized
+   by the widest phrase and only one is faded in at a time. Pure CSS. */
+.typed-text {
+    display: inline-grid;
+    vertical-align: bottom;
+    color: var(--accent-3);
+}
+.typed-text > span {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+    opacity: 0;
+    animation: rotate-word 12s var(--ease) infinite;
+}
+.typed-text > span:nth-child(1) { animation-delay: 0s; }
+.typed-text > span:nth-child(2) { animation-delay: 3s; }
+.typed-text > span:nth-child(3) { animation-delay: 6s; }
+.typed-text > span:nth-child(4) { animation-delay: 9s; }
+
+@keyframes rotate-word {
+    0%           { opacity: 0; transform: translateY(0.4em); }
+    3%, 22%      { opacity: 1; transform: none; }
+    25%, 100%    { opacity: 0; transform: translateY(-0.4em); }
+}
+
+.cursor {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 300;
+    animation: blink 1.05s step-end infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .typed-text > span { opacity: 0; }
+    .typed-text > span:nth-child(1) { opacity: 1; }
+}
+
+.hero-description {
+    max-width: 520px;
+    font-size: 1.08rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+}
+
+.hero-buttons { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* Code window */
+.hero-visual { perspective: 1400px; }
+
+.code-window {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: rgba(9, 14, 28, 0.86);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    transform: rotateY(-7deg) rotateX(3deg);
+    transition: transform .6s var(--ease);
+}
+.code-window:hover { transform: rotateY(0deg) rotateX(0deg); }
+
+.code-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--border);
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.red    { background: #ff5f57; }
+.dot.yellow { background: #febc2e; }
+.dot.green  { background: #28c840; }
+.code-title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    color: var(--text-dim);
+}
+
+.code-content {
+    margin: 0;
+    padding: 22px 24px 26px;
+    font-family: var(--font-mono);
+    font-size: .875rem;
+    line-height: 1.75;
+    color: #c9d6ef;
+    overflow-x: auto;
+    tab-size: 4;
+}
+.code-content .keyword  { color: #c084fc; }
+.code-content .string   { color: #6ee7a8; }
+.code-content .function { color: #60a5fa; }
+.code-content .variable { color: #fbbf24; }
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    left: 50%;
+    bottom: 34px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-50%);
+    animation: float 2.4s ease-in-out infinite;
+}
+.scroll-text {
+    font-size: .74rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.scroll-arrow {
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(45deg);
+}
+@keyframes float {
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 9px); }
+}
+
+/* ============================================================
+   About
+   ============================================================ */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-text .lead {
+    font-size: 1.16rem;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+.about-text p { color: var(--text-muted); }
+.about-text strong { color: var(--accent); font-weight: 600; }
+
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 40px;
+}
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px 16px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease);
+}
+.stat:hover { transform: translateY(-4px); border-color: var(--accent); background: var(--surface-hover); }
+.stat-number {
+    font-size: 2.05rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.stat-label {
+    font-size: .8rem;
+    color: var(--text-dim);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.about-image { display: flex; justify-content: center; }
+.image-placeholder {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(330px, 100%);
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background:
+        var(--gradient-soft),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 12px, transparent 12px 24px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+.image-placeholder::after {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(from 0deg, transparent 0 70%, rgba(56,189,248,.35) 85%, transparent 100%);
+    animation: spin 9s linear infinite;
+    z-index: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.avatar-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 78%;
+    height: 78%;
+    border-radius: var(--radius-lg);
+    background: rgba(11, 17, 32, 0.86);
+    color: var(--accent);
+}
+.avatar-icon svg { width: 62%; height: auto; opacity: .9; }
+
+/* ============================================================
+   Services
+   ============================================================ */
+.services { background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.55), transparent); }
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 26px;
+}
+
+.service-card {
+    position: relative;
+    padding: 34px 30px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow: hidden;
+    transition: transform .35s var(--ease), border-color .35s var(--ease),
+                box-shadow .35s var(--ease), background-color .35s var(--ease);
+}
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .4s var(--ease);
+}
+.service-card:hover {
+    transform: translateY(-8px);
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+}
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 22px;
+    border-radius: 18px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    color: var(--accent);
+    transition: transform .35s var(--ease), color .35s var(--ease), background-color .35s var(--ease);
+}
+.service-icon svg { width: 32px; height: 32px; }
+.service-card:hover .service-icon {
+    transform: translateY(-2px) scale(1.06);
+    background: rgba(56, 189, 248, 0.2);
+    color: var(--accent-3);
+}
+
+.service-card h3 { font-size: 1.18rem; margin-bottom: 10px; }
+.service-card p { margin: 0; color: var(--text-muted); font-size: .97rem; }
+
+/* ============================================================
+   Skills
+   ============================================================ */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 26px;
+}
+
+.skill-category {
+    padding: 30px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform .3s var(--ease), border-color .3s var(--ease);
+}
+.skill-category:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+
+.category-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.06rem;
+    letter-spacing: .01em;
+}
+.category-title svg { color: var(--accent); flex-shrink: 0; }
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.skill-tag {
+    padding: 7px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    font-size: .87rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    transition: transform .2s var(--ease), background-color .2s var(--ease), color .2s var(--ease);
+    cursor: default;
+}
+.skill-tag:hover { transform: translateY(-2px); }
+
+.skill-tag.expert {
+    color: #7dd3fc;
+    border-color: rgba(56, 189, 248, 0.45);
+    background: rgba(56, 189, 248, 0.14);
+    font-weight: 600;
+}
+.skill-tag.proficient {
+    color: #a5b4fc;
+    border-color: rgba(129, 140, 248, 0.38);
+    background: rgba(129, 140, 248, 0.11);
+}
+.skill-tag.familiar {
+    color: var(--text-dim);
+    border-style: dashed;
+}
+
+/* ============================================================
+   Portfolio
+   ============================================================ */
+.portfolio { background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.55), transparent); }
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.portfolio-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+}
+.portfolio-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-lg);
+}
+
+.portfolio-image {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    border-bottom: 1px solid var(--border);
+    color: var(--accent);
+    background:
+        var(--gradient-soft),
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.06), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(148,163,184,.06) 0 1px, transparent 1px 22px),
+        repeating-linear-gradient(90deg, rgba(148,163,184,.06) 0 1px, transparent 1px 22px);
+    overflow: hidden;
+}
+.placeholder-graphic { width: 74%; }
+.placeholder-graphic svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .45s var(--ease);
+}
+.portfolio-card:hover .placeholder-graphic svg { transform: scale(1.07); }
+
+.portfolio-content { padding: 26px 26px 30px; }
+
+.portfolio-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.portfolio-tags span {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    font-family: var(--font-mono);
+    font-size: .74rem;
+    letter-spacing: .04em;
+    color: var(--accent);
+}
+
+.portfolio-content h3 { font-size: 1.22rem; margin-bottom: 10px; }
+.portfolio-content p { margin: 0; color: var(--text-muted); font-size: .96rem; }
+
+/* ============================================================
+   Contact
+   ============================================================ */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease);
+}
+.contact-item:hover { transform: translateX(5px); border-color: var(--accent); background: var(--surface-hover); }
+
+.contact-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    color: var(--accent);
+}
+
+.contact-item h4 {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 3px;
+}
+.contact-item p { margin: 0; color: var(--text); font-weight: 500; }
+
+.contact-form {
+    padding: 34px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    font: inherit;
+    font-size: .97rem;
+    color: var(--text);
+    background: rgba(11, 17, 32, 0.6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease), background-color .2s var(--ease);
+}
+.form-group textarea { resize: vertical; min-height: 130px; }
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--text-dim); }
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(11, 17, 32, 0.9);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+}
+
+.form-status {
+    margin: 18px 0 0;
+    text-align: center;
+    font-size: .88rem;
+    color: var(--text-dim);
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer {
+    padding: 64px 0 30px;
+    border-top: 1px solid var(--border);
+    background: rgba(9, 14, 28, 0.6);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr auto;
+    gap: 36px;
+    align-items: center;
+    padding-bottom: 34px;
+}
+
+.footer-brand .logo { display: inline-block; margin-bottom: 8px; }
+.footer-brand p { margin: 0; color: var(--text-dim); font-size: .93rem; }
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 26px;
+}
+.footer-links a { color: var(--text-muted); font-size: .94rem; }
+.footer-links a:hover { color: var(--accent); }
+
+.footer-social { display: flex; gap: 12px; }
+.social-link {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: transform .25s var(--ease), color .25s var(--ease),
+                border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.social-link:hover {
+    transform: translateY(-3px);
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.footer-bottom {
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+.footer-bottom p { margin: 0; color: var(--text-dim); font-size: .88rem; }
+
+/* ============================================================
+   Entrance animation (CSS-only)
+   Uses `both` fill so the element resolves to fully visible even if
+   animations never run — nothing here can leave content hidden.
+   ============================================================ */
+@keyframes reveal {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.animate-on-scroll { animation: reveal .75s var(--ease) both; }
+
+/* Stagger children within a grid */
+.services-grid  .animate-on-scroll:nth-child(2),
+.skills-grid    .animate-on-scroll:nth-child(2),
+.portfolio-grid .animate-on-scroll:nth-child(2) { animation-delay: .1s; }
+.services-grid  .animate-on-scroll:nth-child(3),
+.skills-grid    .animate-on-scroll:nth-child(3),
+.portfolio-grid .animate-on-scroll:nth-child(3) { animation-delay: .2s; }
+.services-grid  .animate-on-scroll:nth-child(4),
+.skills-grid    .animate-on-scroll:nth-child(4) { animation-delay: .3s; }
+.services-grid  .animate-on-scroll:nth-child(5) { animation-delay: .4s; }
+.services-grid  .animate-on-scroll:nth-child(6) { animation-delay: .5s; }
+
+/* Hero copy cascades in on load */
+.hero-greeting    { animation-delay: .05s; }
+.hero-title       { animation-delay: .15s; }
+.hero-subtitle    { animation-delay: .25s; }
+.hero-description { animation-delay: .35s; }
+.hero-buttons     { animation-delay: .45s; }
+.hero-visual      { animation-delay: .3s; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 980px) {
+    section { padding: 84px 0; }
+
+    .hero { padding-top: calc(var(--nav-h) + 48px); text-align: center; }
+    .hero-container { grid-template-columns: 1fr; gap: 48px; }
+    .hero-description { margin-inline: auto; }
+    .hero-buttons { justify-content: center; }
+    .code-window { transform: none; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 44px; }
+    .about-image { order: -1; }
+
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+
+    .footer-content { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
+
+@media (max-width: 760px) {
+    .nav-toggle { display: flex; }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--nav-h);
+        right: 16px;
+        left: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 14px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: rgba(11, 17, 32, 0.97);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: var(--shadow-lg);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px);
+        transition: opacity .28s var(--ease), transform .28s var(--ease), visibility .28s;
+    }
+    .nav-checkbox:checked ~ .nav-menu { opacity: 1; visibility: visible; transform: none; }
+
+    .nav-link { padding: 13px 16px; text-align: center; font-size: 1rem; }
+    .nav-link.btn-contact { margin: 6px 0 0; }
+
+    .about-stats { grid-template-columns: 1fr; }
+    .contact-form { padding: 26px 20px; }
+    .scroll-indicator { display: none; }
+}
+
+@media (max-width: 420px) {
+    .container { padding-inline: 18px; }
+    .btn { width: 100%; }
+    .code-content { font-size: .78rem; }
+}
+
+/* ============================================================
+   Accessibility / print
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-delay: 0s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+    }
+    .animate-on-scroll { opacity: 1; transform: none; }
+}
+
+@media print {
+    body { background: #fff; color: #000; }
+    .navbar, .hero-bg, .scroll-indicator, .nav-toggle { display: none !important; }
+    .animate-on-scroll { opacity: 1; transform: none; animation: none; }
+}
+</style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#hero" class="logo">M B <span class="accent">TECH</span></a>
+            <input type="checkbox" class="nav-checkbox" id="navToggle">
+            <label class="nav-toggle" for="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link btn-contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <p class="hero-greeting animate-on-scroll">Hello, I'm</p>
+                <h1 class="hero-title animate-on-scroll">
+                    <span class="highlight">M B TECH</span>
+                </h1>
+                <p class="hero-subtitle animate-on-scroll">
+                    Freelance <span class="typed-text" id="typedText"><span>C++ Developer</span><span>Python Developer</span><span>Qt Specialist</span><span>Server Architect</span></span><span class="cursor">|</span>
+                </p>
+                <p class="hero-description animate-on-scroll">
+                    Crafting high-performance C++ applications and robust server architectures from the heart of France.
+                </p>
+                <div class="hero-buttons animate-on-scroll">
+                    <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-visual animate-on-scroll">
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="code-title">main.cpp</span>
+                    </div>
+                    <pre class="code-content"><code><span class="keyword">#include</span> <span class="string">&lt;QApplication&gt;</span>
+<span class="keyword">#include</span> <span class="string">"mainwindow.h"</span>
+
+<span class="keyword">int</span> <span class="function">main</span>(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])
+{
+    QApplication <span class="variable">app</span>(argc, argv);
+    MainWindow <span class="variable">window</span>;
+
+    window.<span class="function">show</span>();
+    <span class="keyword">return</span> app.<span class="function">exec</span>();
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text animate-on-scroll">
+                    <p class="lead">
+                        I'm a freelance software developer based in <strong>France</strong>, specializing in
+                        <strong>C++</strong> development with <strong>Qt</strong> frameworks and <strong>Python</strong>
+                        scripting. With years of experience designing and building complex systems, I turn ideas
+                        into reliable, performant software.
+                    </p>
+                    <p>
+                        From desktop applications with elegant Qt interfaces to scalable server architectures
+                        handling thousands of concurrent connections, I bring a methodical approach to every project.
+                        I believe in clean code, solid architecture, and delivering solutions that stand the test of time.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Projects Completed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Client Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image animate-on-scroll">
+                    <div class="image-placeholder">
+                        <div class="avatar-icon">
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="40" r="25" fill="currentColor"/>
+                                <path d="M20 100c0-22 18-40 40-40s40 18 40 40" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Services</h2>
+            <p class="section-subtitle animate-on-scroll">End-to-end software solutions tailored to your needs</p>
+            <div class="services-grid">
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="12" width="48" height="36" rx="4" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <line x1="8" y1="22" x2="56" y2="22" stroke="currentColor" stroke-width="2.5"/>
+                            <circle cx="16" cy="17" r="2" fill="currentColor"/>
+                            <circle cx="22" cy="17" r="2" fill="currentColor"/>
+                            <rect x="14" y="52" width="36" height="4" rx="2" fill="currentColor"/>
+                            <rect x="26" y="48" width="12" height="4" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Qt Application Development</h3>
+                    <p>Cross-platform desktop applications with intuitive interfaces using Qt5/Qt6, QML, and C++.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="8" width="20" height="28" rx="2" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <rect x="34" y="8" width="20" height="28" rx="2" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <line x1="30" y1="22" x2="34" y2="22" stroke="currentColor" stroke-width="2.5"/>
+                            <line x1="20" y1="44" x2="44" y2="44" stroke="currentColor" stroke-width="2.5"/>
+                            <rect x="16" y="44" width="4" height="10" fill="currentColor"/>
+                            <rect x="44" y="44" width="4" height="10" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Server Architecture</h3>
+                    <p>Scalable, high-performance server designs with multithreading, networking, and database integration.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8L52 20v24L32 56 12 44V20L32 8z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M32 32l20-12M32 32v24M32 32L12 20" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>Software Architecture</h3>
+                    <p>System design and architecture planning for complex applications, ensuring maintainability and scalability.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <polyline points="16,20 28,44 40,28 48,36" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="44" y1="20" x2="52" y2="20" stroke="currentColor" stroke-width="2.5"/>
+                            <line x1="52" y1="20" x2="52" y2="28" stroke="currentColor" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <h3>Python Development</h3>
+                    <p>Automation scripts, data processing pipelines, APIs, and rapid prototyping with Python.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <path d="M32 18v14l10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Consulting &amp; Code Review</h3>
+                    <p>Expert advice on C++ best practices, performance optimization, and legacy code modernization.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8v48M8 32h48" stroke="currentColor" stroke-width="2.5"/>
+                            <circle cx="32" cy="32" r="8" stroke="currentColor" stroke-width="2.5" fill="none"/>
+                            <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+                        </svg>
+                    </div>
+                    <h3>Embedded Systems</h3>
+                    <p>Resource-efficient C++ solutions for embedded platforms and IoT devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category animate-on-scroll">
+                    <h3 class="category-title">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Languages
+                    </h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag expert">C++</span>
+                        <span class="skill-tag expert">Python</span>
+                        <span class="skill-tag proficient">QML</span>
+                        <span class="skill-tag proficient">SQL</span>
+                        <span class="skill-tag proficient">JavaScript</span>
+                        <span class="skill-tag familiar">Rust</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3 class="category-title">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/>
+                            <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Frameworks &amp; Libraries
+                    </h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag expert">Qt5 / Qt6</span>
+                        <span class="skill-tag expert">STL</span>
+                        <span class="skill-tag proficient">Boost</span>
+                        <span class="skill-tag proficient">Django</span>
+                        <span class="skill-tag proficient">PyQt / PySide</span>
+                        <span class="skill-tag familiar">TensorFlow</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3 class="category-title">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Tools &amp; Platforms
+                    </h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag expert">Git</span>
+                        <span class="skill-tag expert">CMake</span>
+                        <span class="skill-tag proficient">Linux</span>
+                        <span class="skill-tag proficient">Docker</span>
+                        <span class="skill-tag proficient">CI/CD</span>
+                        <span class="skill-tag familiar">AWS</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3 class="category-title">
+                        <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        Databases
+                    </h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag proficient">PostgreSQL</span>
+                        <span class="skill-tag proficient">MySQL</span>
+                        <span class="skill-tag proficient">SQLite</span>
+                        <span class="skill-tag familiar">Redis</span>
+                        <span class="skill-tag familiar">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Featured Projects</h2>
+            <p class="section-subtitle animate-on-scroll">A selection of recent work across various domains</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-image">
+                        <div class="placeholder-graphic">
+                            <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="20" y="20" width="160" height="80" rx="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <rect x="30" y="35" width="60" height="8" rx="2" fill="currentColor" opacity="0.3"/>
+                                <rect x="30" y="50" width="100" height="6" rx="2" fill="currentColor" opacity="0.2"/>
+                                <rect x="30" y="62" width="80" height="6" rx="2" fill="currentColor" opacity="0.2"/>
+                                <rect x="30" y="74" width="40" height="6" rx="2" fill="currentColor" opacity="0.2"/>
+                                <circle cx="150" cy="55" r="15" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M145 55l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>C++</span>
+                            <span>Qt</span>
+                            <span>SQL</span>
+                        </div>
+                        <h3>Enterprise Resource Manager</h3>
+                        <p>A full-featured desktop application for managing company resources with real-time dashboards, reporting, and multi-database integration.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-image">
+                        <div class="placeholder-graphic">
+                            <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="40" y="15" width="50" height="90" rx="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <rect x="110" y="15" width="50" height="90" rx="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M90 40l20-10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M90 60l20 0" stroke="currentColor" stroke-width="2"/>
+                                <path d="M90 80l20 10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="65" cy="40" r="4" fill="currentColor" opacity="0.5"/>
+                                <circle cx="65" cy="55" r="4" fill="currentColor" opacity="0.5"/>
+                                <circle cx="135" cy="45" r="4" fill="currentColor" opacity="0.5"/>
+                                <circle cx="135" cy="60" r="4" fill="currentColor" opacity="0.5"/>
+                                <circle cx="135" cy="75" r="4" fill="currentColor" opacity="0.5"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>C++</span>
+                            <span>Networking</span>
+                            <span>Linux</span>
+                        </div>
+                        <h3>High-Frequency Trading Server</h3>
+                        <p>Low-latency server architecture handling 100K+ messages/second with custom protocol implementation and real-time market data distribution.</p>
+                    </div>
+                </div>
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-image">
+                        <div class="placeholder-graphic">
+                            <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="100" cy="60" r="35" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <circle cx="100" cy="60" r="25" stroke="currentColor" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+                                <path d="M80 60l10 10 20-20" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                <circle cx="50" cy="30" r="8" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.2"/>
+                                <circle cx="155" cy="35" r="6" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.2"/>
+                                <circle cx="140" cy="95" r="7" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>Python</span>
+                            <span>Automation</span>
+                            <span>API</span>
+                        </div>
+                        <h3>IoT Monitoring Platform</h3>
+                        <p>Python-based platform collecting and analyzing sensor data from 500+ IoT devices with real-time alerts and predictive maintenance insights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Get In Touch</h2>
+            <p class="section-subtitle animate-on-scroll">Have a project in mind? Let's talk about how I can help.</p>
+            <div class="contact-grid">
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>France</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:contact@mbtech.fr">contact@mbtech.fr</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Availability</h4>
+                            <p>Mon – Fri, 9:00 – 18:00 CET</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- No JavaScript: the form hands off to the visitor's mail client.
+                     Swap action/method for a server endpoint when a backend exists. -->
+                <form class="contact-form animate-on-scroll" id="contactForm"
+                      action="mailto:contact@mbtech.fr" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Project inquiry">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <span>Send Message</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </button>
+                    <p class="form-status">Prefer email? <a href="mailto:contact@mbtech.fr">contact@mbtech.fr</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#hero" class="logo">M B <span class="accent">TECH</span></a>
+                    <p>Freelance C++ &amp; Python Developer</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="GitHub" class="social-link">
+                        <svg viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="social-link">
+                        <svg viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="social-link">
+                        <svg viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 M B TECH. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M B TECH | Solutions Tech Full-Stack & Backend Expert</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --color-primary: #C1121F;
+            --color-secondary: #780000;
+            --color-accent: #669BBC;
+            --color-dark: #003049;
+            --color-light: #FDF0D5;
+            --color-white: #FFFFFF;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            
+            --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all var(--transition-base);
+            backdrop-filter: blur(10px);
+            background: rgba(0, 48, 73, 0.8);
+            border-bottom: 1px solid rgba(253, 240, 213, 0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(0, 48, 73, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width var(--transition-base);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-light);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(193, 18, 31, 0.1);
+            border: 1px solid rgba(193, 18, 31, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-light) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-gray-300);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+            box-shadow: 0 4px 15px rgba(193, 18, 31, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(193, 18, 31, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-light);
+            border: 2px solid var(--color-accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-accent);
+            color: var(--color-dark);
+            transform: translateY(-2px);
+        }
+
+        .hero-code {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(102, 155, 188, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            font-family: var(--font-code);
+            font-size: 0.875rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform var(--transition-slow);
+        }
+
+        .hero-code:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .code-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(102, 155, 188, 0.2);
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+
+        .code-content {
+            color: var(--color-gray-300);
+        }
+
+        .code-keyword { color: var(--color-primary); }
+        .code-type { color: var(--color-accent); }
+        .code-string { color: #98c379; }
+        .code-function { color: #61afef; }
+        .code-comment { color: var(--color-gray-500); font-style: italic; }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background: rgba(0, 48, 73, 0.5);
+            border-top: 1px solid rgba(102, 155, 188, 0.2);
+            border-bottom: 1px solid rgba(102, 155, 188, 0.2);
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: var(--color-gray-300);
+            font-weight: 500;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(102, 155, 188, 0.1);
+            color: var(--color-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(102, 155, 188, 0.3);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--color-light);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--color-gray-300);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(102, 155, 188, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 155, 188, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-light);
+        }
+
+        .service-card p {
+            color: var(--color-gray-300);
+            line-height: 1.7;
+        }
+
+        /* Technologies Section - Magic UI Style */
+        .technologies {
+            padding: 8rem 2rem;
+            background: rgba(0, 48, 73, 0.3);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-category {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(102, 155, 188, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all var(--transition-base);
+        }
+
+        .tech-category:hover {
+            border-color: rgba(102, 155, 188, 0.4);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tech-category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(102, 155, 188, 0.2);
+        }
+
+        .tech-category-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(193, 18, 31, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+        }
+
+        .tech-category h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-light);
+        }
+
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(102, 155, 188, 0.1);
+            border: 1px solid rgba(102, 155, 188, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-light);
+            transition: all var(--transition-bounce);
+            cursor: default;
+        }
+
+        .tech-badge:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+            transform: scale(1.05);
+        }
+
+        .tech-badge i {
+            font-size: 1rem;
+        }
+
+        /* Methodology Section */
+        .methodology {
+            padding: 8rem 2rem;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .methodology-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(102, 155, 188, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all var(--transition-base);
+        }
+
+        .methodology-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .methodology-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: rgba(193, 18, 31, 0.2);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .methodology-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-light);
+            margin-bottom: 1rem;
+        }
+
+        .methodology-card p {
+            color: var(--color-gray-300);
+            line-height: 1.7;
+        }
+
+        .methodology-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .methodology-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            color: var(--color-gray-300);
+            border-bottom: 1px solid rgba(102, 155, 188, 0.1);
+        }
+
+        .methodology-list li:last-child {
+            border-bottom: none;
+        }
+
+        .methodology-list i {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-white:hover {
+            background: var(--color-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: var(--color-white);
+            border: 2px solid var(--color-white);
+        }
+
+        .btn-outline-white:hover {
+            background: var(--color-white);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 48, 73, 0.8);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(102, 155, 188, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--color-gray-300);
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(102, 155, 188, 0.1);
+            border: 1px solid rgba(102, 155, 188, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-light);
+            transition: all var(--transition-base);
+        }
+
+        .footer-social a:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-column h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--color-gray-300);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(102, 155, 188, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--color-gray-400);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            .hero-code {
+                order: 1;
+                transform: none;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i data-lucide="cpu"></i>
+                M B <span>TECH</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#technologies">Technologies</a></li>
+                <li><a href="#methodology">Méthodologie</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i data-lucide="zap"></i>
+                    Expert Full-Stack & Backend
+                </div>
+                <h1 class="hero-title">Développement d'applications de A à Z</h1>
+                <p class="hero-subtitle">
+                    De la conception architecturale au déploiement serveur, nous maîtrisons toute la chaîne de valeur technologique avec une expertise particulière en backend haute performance.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i data-lucide="rocket"></i>
+                        Démarrer un projet
+                    </a>
+                    <a href="#technologies" class="btn btn-secondary">
+                        <i data-lucide="code"></i>
+                        Voir les technos
+                    </a>
+                </div>
+            </div>
+            <div class="hero-code">
+                <div class="code-header">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-content">
+<pre><code><span class="code-comment">// Drogon C++ Backend Server</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;drogon/drogon.h&gt;</span>
+
+<span class="code-keyword">class</span> <span class="code-type">ApiController</span> : 
+    <span class="code-keyword">public</span> drogon::HttpController&lt;ApiController&gt;
+{
+<span class="code-keyword">public:</span>
+    METHOD_LIST_BEGIN
+    METHOD_ADD(ApiController, get, <span class="code-string">"/api/v1/data"</span>, Get);
+    METHOD_ADD(ApiController, post, <span class="code-string">"/api/v1/process"</span>, Post);
+    METHOD_LIST_END
+
+    <span class="code-type">void</span> <span class="code-function">get</span>(<span class="code-type">const</span> HttpRequestPtr& req,
+             std::function&lt;<span class="code-type">void</span>(<span class="code-type">const</span> HttpResponsePtr&)&gt; callback);
+    
+    <span class="code-type">void</span> <span class="code-function">post</span>(<span class="code-type">const</span> HttpRequestPtr& req,
+              std::function&lt;<span class="code-type">void</span>(<span class="code-type">const</span> HttpResponsePtr&)&gt; callback);
+};
+
+<span class="code-comment">// High-performance async backend</span>
+<span class="code-comment">// Deployed with nginx + TLS/Let's Encrypt</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item reveal">
+                <h3 data-target="50">0</h3>
+                <p>Projets livrés</p>
+            </div>
+            <div class="stat-item reveal">
+                <h3 data-target="5">0</h3>
+                <p>Années d'expérience</p>
+            </div>
+            <div class="stat-item reveal">
+                <h3 data-target="15">0</h3>
+                <p>Technologies maîtrisées</p>
+            </div>
+            <div class="stat-item reveal">
+                <h3 data-target="100">0</h3>
+                <p>% Clients satisfaits</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">Nos Services</span>
+                <h2 class="section-title">Solutions technologiques complètes</h2>
+                <p class="section-subtitle">
+                    Nous accompagnons vos projets de la conception à la mise en production avec une expertise technique pointue sur l'ensemble de la stack.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="layers" size="28"></i>
+                    </div>
+                    <h3>Développement Full-Stack</h3>
+                    <p>Conception et développement d'applications web et mobiles complètes, du frontend utilisateur au backend robuste, avec une architecture scalable et maintenable.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="server" size="28"></i>
+                    </div>
+                    <h3>Backend Haute Performance</h3>
+                    <p>Expertise en C++, Python et Drogon pour créer des APIs rapides, des systèmes temps réel et des traitements de données massifs avec une latence minimale.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="smartphone" size="28"></i>
+                    </div>
+                    <h3>Applications Multi-Plateformes</h3>
+                    <p>Déploiement natif et cross-platform sur Windows, Linux, macOS, Android et iOS grâce à Flutter, Dart et Qt pour une expérience utilisateur optimale.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="credit-card" size="28"></i>
+                    </div>
+                    <h3>Intégration Monétique</h3>
+                    <p>Implémentation sécurisée de solutions de paiement via Stripe, conformité PCI-DSS et gestion des transactions financières pour vos applications e-commerce.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="cloud" size="28"></i>
+                    </div>
+                    <h3>Déploiement & DevOps</h3>
+                    <p>Configuration de serveurs Ubuntu/Debian/Redhat, nginx, certificats TLS Let's Encrypt, automatisation CI/CD et monitoring pour une production fiable.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">
+                        <i data-lucide="git-branch" size="28"></i>
+                    </div>
+                    <h3>Architecture Logicielle</h3>
+                    <p>Modélisation UML, développement piloté par les comportements (BDD), bonnes pratiques de code et documentation technique pour des projets durables.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies" class="technologies">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">Stack Technique</span>
+                <h2 class="section-title">Technologies maîtrisées</h2>
+                <p class="section-subtitle">
+                    Un éventail complet de technologies modernes pour répondre à tous vos besoins, avec une spécialisation backend reconnue.
+                </p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="monitor" size="24"></i>
+                        </div>
+                        <h3>Frontend</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> Python</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Flutter</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Dart</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Qt</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> JUCE</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> HTML5</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> CSS3</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> JavaScript</span>
+                    </div>
+                </div>
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="database" size="24"></i>
+                        </div>
+                        <h3>Backend</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> C++</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Drogon</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> C</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Python</span>
+                    </div>
+                </div>
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="globe" size="24"></i>
+                        </div>
+                        <h3>Déploiement</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> nginx</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> TLS/SSL</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Let's Encrypt</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Ubuntu</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Debian</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> RedHat</span>
+                    </div>
+                </div>
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="layers" size="24"></i>
+                        </div>
+                        <h3>Plateformes</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> Windows</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Linux</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> macOS</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Android</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> iOS</span>
+                    </div>
+                </div>
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="credit-card" size="24"></i>
+                        </div>
+                        <h3>Monétique</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> Stripe API</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Paiements CB</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> PCI-DSS</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Webhooks</span>
+                    </div>
+                </div>
+                <div class="tech-category reveal">
+                    <div class="tech-category-header">
+                        <div class="tech-category-icon">
+                            <i data-lucide="workflow" size="24"></i>
+                        </div>
+                        <h3>Architecture</h3>
+                    </div>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i data-lucide="circle"></i> UML</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> BDD</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Clean Arch</span>
+                        <span class="tech-badge"><i data-lucide="circle"></i> Microservices</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="methodology" class="methodology">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">Notre Approche</span>
+                <h2 class="section-title">Méthodologie rigoureuse</h2>
+                <p class="section-subtitle">
+                    Des processus éprouvés garantissant qualité, maintenabilité et alignement avec vos besoins métier.
+                </p>
+            </div>
+            <div class="methodology-grid">
+                <div class="methodology-card reveal">
+                    <div class="methodology-number">01</div>
+                    <h3>Behaviour Driven Development (BDD)</h3>
+                    <p>Une approche collaborative qui aligne développeurs, testeurs et métiers autour de scénarios clairs exprimés en langage naturel.</p>
+                    <ul class="methodology-list">
+                        <li><i data-lucide="check-circle"></i> Scénarios Gherkin compréhensibles par tous</li>
+                        <li><i data-lucide="check-circle"></i> Tests automatisés dès la conception</li>
+                        <li><i data-lucide="check-circle"></i> Documentation vivante du comportement</li>
+                        <li><i data-lucide="check-circle"></i> Réduction des incompréhensions métier</li>
+                    </ul>
+                </div>
+                <div class="methodology-card reveal">
+                    <div class="methodology-number">02</div>
+                    <h3>Modélisation UML</h3>
+                    <p>Une vision claire de l'architecture avant le premier ligne de code, facilitant la communication et l'évolution du système.</p>
+                    <ul class="methodology-list">
+                        <li><i data-lucide="check-circle"></i> Diagrammes de classes et de séquences</li>
+                        <li><i data-lucide="check-circle"></i> Architecture modulaire et extensible</li>
+                        <li><i data-lucide="check-circle"></i> Patterns de conception appropriés</li>
+                        <li><i data-lucide="check-circle"></i> Maintenance simplifiée à long terme</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="cta">
+        <div class="cta-container">
+            <h2>Prêt à lancer votre projet ?</h2>
+            <p>Discutons de vos besoins et construisons ensemble la solution technologique qui propulsera votre entreprise.</p>
+            <div class="cta-buttons">
+                <a href="mailto:contact@m-b-tech.fr" class="btn btn-white">
+                    <i data-lucide="mail"></i>
+                    Nous contacter
+                </a>
+                <a href="#services" class="btn btn-outline-white">
+                    <i data-lucide="arrow-down"></i>
+                    Découvrir nos services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <i data-lucide="cpu"></i>
+                        M B <span>TECH</span>
+                    </a>
+                    <p>
+                        Expert en développement full-stack et backend haute performance. 
+                        Nous transformons vos idées en solutions technologiques robustes et scalables.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#"><i data-lucide="github"></i></a>
+                        <a href="#"><i data-lucide="linkedin"></i></a>
+                        <a href="#"><i data-lucide="twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Développement Full-Stack</a></li>
+                        <li><a href="#services">Backend Performance</a></li>
+                        <li><a href="#services">Applications Mobiles</a></li>
+                        <li><a href="#services">Intégration Stripe</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Technologies</h4>
+                    <ul class="footer-links">
+                        <li><a href="#technologies">C++ / Drogon</a></li>
+                        <li><a href="#technologies">Python</a></li>
+                        <li><a href="#technologies">Flutter / Dart</a></li>
+                        <li><a href="#technologies">Qt / JUCE</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Entreprise</h4>
+                    <ul class="footer-links">
+                        <li><a href="#methodology">Méthodologie</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 M B TECH. Tous droits réservés.</p>
+                <p>Fait avec passion en France 🇫🇷</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Three.js Particle System
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 2000;
+            const positions = new Float32Array(particlesCount * 3);
+            const colors = new Float32Array(particlesCount * 3);
+
+            const colorPalette = [
+                new THREE.Color('#C1121F'),
+                new THREE.Color('#669BBC'),
+                new THREE.Color('#FDF0D5')
+            ];
+
+            for (let i = 0; i < particlesCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i + 1] = (Math.random() - 0.5) * 100;
+                positions[i + 2] = (Math.random() - 0.5) * 100;
+
+                const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+                colors[i] = color.r;
+                colors[i + 1] = color.g;
+                colors[i + 2] = color.b;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.15,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+
+            camera.position.z = 30;
+
+            // Mouse interaction
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+
+            // Animation loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                particles.rotation.x += 0.0005;
+                particles.rotation.y += 0.0005;
+
+                particles.rotation.x += mouseY * 0.01;
+                particles.rotation.y += mouseX * 0.01;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // GSAP Animations
+        const initGSAP = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Reveal animations
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach((element) => {
+                gsap.fromTo(element, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: element,
+                            start: 'top 85%',
+                            toggleClass: 'active'
+                        }
+                    }
+                );
+            });
+
+            // Stats counter animation
+            const statItems = document.querySelectorAll('.stat-item h3');
+            statItems.forEach((stat) => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                gsap.to(stat, {
+                    innerText: target,
+                    duration: 2,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: 'top 80%',
+                        once: true
+                    },
+                    snap: { innerText: 1 },
+                    onUpdate: function() {
+                        stat.innerText = Math.ceil(this.targets()[0].innerText) + '+';
+                    }
+                });
+            });
+
+            // Hero content stagger
+            gsap.from('.hero-content > *', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 0.5
+            });
+
+            // Hero code animation
+            gsap.from('.hero-code', {
+                opacity: 0,
+                x: 50,
+                rotationY: 10,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.8
+            });
+
+            // Service cards stagger
+            gsap.utils.toArray('.service-card').forEach((card, index) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.6,
+                    delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // Tech badges stagger
+            gsap.utils.toArray('.tech-category').forEach((category, index) => {
+                gsap.from(category, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: index * 0.1,
+                    scrollTrigger: {
+                        trigger: category,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+        };
+
+        // Mobile menu toggle
+        const initMobileMenu = () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuBtn.addEventListener('click', () => {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                if (navLinks.style.display === 'flex') {
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.right = '0';
+                    navLinks.style.background = 'rgba(0, 48, 73, 0.98)';
+                    navLinks.style.padding = '2rem';
+                    navLinks.style.gap = '1.5rem';
+                }
+            });
+        };
+
+        // Smooth scroll for anchor links
+        const initSmoothScroll = () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        };
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            initGSAP();
+            initMobileMenu();
+            initSmoothScroll();
+        });
+    </script>
+</body>
+</html>
